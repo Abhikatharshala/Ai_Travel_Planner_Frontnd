@@ -1,0 +1,81 @@
+/* Main container */
+.trip-details {
+  margin-top: 80px; /* prevents overlap with navbar */
+  padding: 20px;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Title */
+.trip-title {
+  font-size: 2rem;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+/* Day container */
+.day-plan-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Day card */
+.day-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.day-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* Day title */
+.day-title {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  color: #27ae60;
+}
+
+/* Time blocks */
+.time-block {
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.time-block strong {
+  color: #34495e;
+}
+
+/* Responsive typography */
+@media (max-width: 768px) {
+  .trip-title {
+    font-size: 1.6rem;
+  }
+  .day-title {
+    font-size: 1.1rem;
+  }
+  .time-block {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .trip-details {
+    padding: 15px;
+  }
+  .trip-title {
+    font-size: 1.4rem;
+  }
+  .day-card {
+    padding: 15px;
+  }
+}

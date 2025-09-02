@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import PopularPlaces from "../Histroy/Histroy"; // Replace with your correct PopularPlaces component
 
 const TripPlanner = () => {
   const [trip, setTrip] = useState({
@@ -9,10 +10,10 @@ const TripPlanner = () => {
     preferences: "",
     startDate: "",
     endDate: "",
-    days: ""
+    days: "",
   });
   const [currentImage, setCurrentImage] = useState(0);
-  const navigate=useNavigate()
+  const navigate = useNavigate();
 
   // Background images
   const images = [
@@ -41,23 +42,20 @@ const TripPlanner = () => {
       const response = await axios.post(
         "https://ai-travel-planner-2-7abk.onrender.com/googlePlace/goglePlacesGet",
         trip,
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
       console.log("Trip Plan Response:", response.data);
       alert("Your Trip is Ready!");
-      localStorage.setItem("tripPlan",JSON.stringify(response.data));
-      navigate("/TripDetails",)
+      localStorage.setItem("tripPlan", JSON.stringify(response.data));
+      navigate("/TripDetails");
     } catch (error) {
       console.error("Error Response:", error.response?.data || error.message);
     }
   };
 
   return (
-    <div className="relative min-h-screen w-full">
-      {/* Background Slideshow */}
+    <div className="relative w-full min-h-screen">
+      {/* Background */}
       <div className="absolute inset-0">
         <img
           src={images[currentImage]}
@@ -70,69 +68,75 @@ const TripPlanner = () => {
       {/* Navbar */}
       <Navbar />
 
-      {/* Form overlay */}
-      <div className="relative flex justify-center items-center min-h-screen z-10">
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col gap-4 bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg max-w-md w-full"
-        >
-          <h1 className="text-2xl font-bold text-center mb-4">Plan Your Trip</h1>
-
-          <input
-            type="text"
-            placeholder="Enter your location"
-            name="location"
-            value={trip.location}
-            onChange={handleTrip}
-            required
-            className="p-2 rounded border"
-          />
-          <input
-            type="text"
-            placeholder="Enter your preferences"
-            name="preferences"
-            value={trip.preferences}
-            onChange={handleTrip}
-            required
-            className="p-2 rounded border"
-          />
-          <input
-            type="date"
-            name="startDate"
-            value={trip.startDate}
-            onChange={handleTrip}
-            required
-            className="p-2 rounded border"
-          />
-          <input
-            type="date"
-            name="endDate"
-            value={trip.endDate}
-            onChange={handleTrip}
-            required
-            className="p-2 rounded border"
-          />
-          <input
-            type="number"
-            placeholder="How many days of Trip"
-            name="days"
-            value={trip.days}
-            onChange={handleTrip}
-            required
-            className="p-2 rounded border"
-          />
-
-          <button
-            type="submit"
-            className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+      {/* Main content */}
+      <div className="relative z-10">
+        {/* Trip Form Centered */}
+        <div className="flex justify-center items-center min-h-screen px-4">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col gap-4 bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg max-w-md w-full"
           >
-            Plan My Trip
-          </button>
-        </form>
+            <h1 className="text-2xl font-bold text-center mb-4">Plan Your Trip</h1>
+
+            <input
+              type="text"
+              placeholder="Enter your location"
+              name="location"
+              value={trip.location}
+              onChange={handleTrip}
+              required
+              className="p-2 rounded border"
+            />
+            <input
+              type="text"
+              placeholder="Enter your preferences"
+              name="preferences"
+              value={trip.preferences}
+              onChange={handleTrip}
+              required
+              className="p-2 rounded border"
+            />
+            <input
+              type="date"
+              name="startDate"
+              value={trip.startDate}
+              onChange={handleTrip}
+              required
+              className="p-2 rounded border"
+            />
+            <input
+              type="date"
+              name="endDate"
+              value={trip.endDate}
+              onChange={handleTrip}
+              required
+              className="p-2 rounded border"
+            />
+            <input
+              type="number"
+              placeholder="How many days of Trip"
+              name="days"
+              value={trip.days}
+              onChange={handleTrip}
+              required
+              className="p-2 rounded border"
+            />
+
+            <button
+              type="submit"
+              className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
+            >
+              Plan My Trip
+            </button>
+          </form>
+        </div>
+
+        {/* Popular Places Section */}
+        <div className="px-4 py-12 bg-gray-100">
+          <h2 className="text-3xl font-bold text-center mb-8">Most Popular Places</h2>
+          <PopularPlaces />
+        </div>
       </div>
-
-
-     
     </div>
   );
 };

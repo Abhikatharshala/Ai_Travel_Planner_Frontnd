@@ -13,12 +13,12 @@ export default function Navbar() {
 
         {/* Menu Links */}
         <div className="hidden md:flex space-x-6">
-          <Link to="/" className="hover:text-blue-500 transition">Home</Link>
-          <Link to="/plan-trip" className="hover:text-blue-500 transition">Plan Trip</Link>
-          <Link to="/places" className="hover:text-blue-500 transition">Places</Link>
-          <Link to="/about" className="hover:text-blue-500 transition">About</Link>
+          <Link to="/Dashboard" className="hover:text-blue-500 transition">Home</Link>
+          <Link to="/Histroy" className="hover:text-blue-500 transition">Popular Places</Link>
+          <Link to="/MyTrips" className="hover:text-blue-500 transition">MyTrips</Link>
           <Link to="/wishlist" className="hover:text-blue-500 transition">Wishlist</Link>
-          <Link to="/history" className="hover:text-blue-500 transition">History</Link>
+          {/* <Link to="/Histroy" className="hover:text-blue-500 transition">History</Link> */}
+           <Link to="/places" className="hover:text-blue-500 transition">About</Link>
           
         </div>
 

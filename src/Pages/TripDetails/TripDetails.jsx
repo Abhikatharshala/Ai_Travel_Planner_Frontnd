@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
-import { Heart } from "lucide-react"; // using lucide-react icons
-
+import { FaRegHeart } from "react-icons/fa";
 const TripDetails = () => {
   const [plan, setPlan] = useState([]);
-  const [wishlist, setWishlist] = useState([]);
 
   useEffect(() => {
     const tripPlan = localStorage.getItem("tripPlan");
@@ -13,8 +11,11 @@ const TripDetails = () => {
         const parsed = JSON.parse(tripPlan);
         if (parsed.trip && Array.isArray(parsed.trip.days)) {
           setPlan(parsed.trip.days);
+         
         } else if (Array.isArray(parsed)) {
           setPlan(parsed);
+          setTripName("My Trip")
+
         } else {
           setPlan([]);
         }
@@ -24,28 +25,6 @@ const TripDetails = () => {
       }
     }
   }, []);
-
-  const handleWishlist = async (dayPlan) => {
-    try {
-      // Update UI immediately
-      setWishlist((prev) => [...prev, dayPlan]);
-
-      // Call backend API (replace URL with your actual API)
-      const response = await fetch("http://localhost:5000/api/wishlist", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(dayPlan),
-      });
-
-      const data = await response.json();
-      console.log("Wishlist saved:", data);
-      alert("Added to Wishlist ❤️");
-    } catch (error) {
-      console.error("Error adding to wishlist:", error);
-    }
-  };
 
   if (!plan || plan.length === 0) {
     return (
@@ -57,6 +36,31 @@ const TripDetails = () => {
       </div>
     );
   }
+const handleAddToWishlist = (trip) => {
+  try {
+    const existing = JSON.parse(localStorage.getItem("wishlist")) || [];
+
+  const newTrip = Array.isArray(trip)
+    ? {
+        location: "My Trip",
+        days: trip.length,
+        itinerary: trip
+      }
+    : {
+        location: tripData.location || "My Trip",
+        days: Array.isArray(trip.itinerary) ? trip.itinerary.length : 0,
+        itinerary: Array.isArray(trip.itinerary) ? trip.itinerary : []
+      };
+
+    existing.push(newTrip);
+    localStorage.setItem("wishlist", JSON.stringify(existing));
+
+    console.log("Updated wishlist:", existing);
+    alert(" Trip added to wishlist!");
+  } catch (error) {
+    console.error("Error saving wishlist:", error);
+  }
+};
 
   return (
     <div>
@@ -64,12 +68,21 @@ const TripDetails = () => {
       <div className="min-h-screen bg-gradient-to-r from-teal-100 via-blue-50 to-green-100 px-6 py-10">
         {/* Title */}
         <div className="pt-20 text-center">
+        
           <h1 className="text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-600 to-blue-700 drop-shadow-lg">
-            🌴 Your Travel Itinerary
+            🌴 Your Travel Itinerary <span>     </span>  
+            <button
+      onClick={() => handleAddToWishlist(plan)}
+      className="text-gray-500 hover:text-red-500 transition"
+    >
+      <FaRegHeart size={32} />
+    </button>
           </h1>
+     
           <p className="mt-3 text-gray-600 text-lg">
             Explore your personalized day-by-day plan
           </p>
+         
         </div>
 
         {/* Grid of animated cards */}
@@ -104,23 +117,9 @@ const TripDetails = () => {
                 </ul>
               </div>
 
-              {/* Wishlist Button */}
-              <button
-                onClick={() => handleWishlist(dayPlan)}
-                className="absolute top-4 right-4 bg-white/80 p-2 rounded-full shadow-md hover:bg-red-100 transition"
-              >
-                <Heart
-                  size={22}
-                  className={`${
-                    wishlist.find((w) => w.day === dayPlan.day)
-                      ? "fill-red-500 text-red-500"
-                      : "text-gray-500"
-                  }`}
-                />
-              </button>
-
               {/* Bottom bar */}
               <div className="absolute bottom-0 w-full h-2 bg-gradient-to-r from-teal-400 to-blue-500"></div>
+             
             </div>
           ))}
         </div>
