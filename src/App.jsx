@@ -9,7 +9,9 @@ import TripDetails from './Pages/TripDetails/TripDetails'
 import MyTrips from './Pages/MyTrips/MyTrips'
 import ViewDetails from './Pages/ViewDetails/ViewDetails'
 import WishList from './Pages/WishList/WishList'
-import Histroy from './Pages/Histroy/Histroy'
+
+import PopularPlaces from './Pages/PopularPlaces/PopularPlaces'
+import Profile from './Pages/Profile/Profile'
 
 
 
@@ -28,7 +30,8 @@ const App = () => {
     <Route path='/MyTrips' element={<MyTrips/>}/>
     <Route path='/ViewDetails/:id' element={<ViewDetails/>}/>
     <Route path='/WishList' element={<WishList/>}/>
-    <Route path='/Histroy' element={<Histroy/>}/>
+    <Route path='/PopularPlaces' element={<PopularPlaces/>}/>
+    <Route path='/Profile' element={<Profile/>}/>
      </Routes>
      </BrowserRouter>
     </div>

@@ -32,6 +32,7 @@ const ViewDetails = () => {
   return (
     <div>
       <Navbar />
+      <div className=" min-h-screen bg-gradient-to-r from-teal-100 via-blue-50 to-green-100 px-6 py-10 pt-24">
       <div className="trip-details">
         <h2 className="trip-title">🌍 Trip to {trip.location}</h2>
 
@@ -53,9 +54,13 @@ const ViewDetails = () => {
               </div>
             </div>
           ))}
+          
         </div>
+       </div>
       </div>
+      
     </div>
+    
   );
 };
 export default ViewDetails;

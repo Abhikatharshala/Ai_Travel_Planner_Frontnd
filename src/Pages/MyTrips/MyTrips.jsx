@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import "./MyTrip.css"
 import Navbar from '../../Components/Navbar/Navbar'
 import { useNavigate } from 'react-router-dom'
-// import { response } from 'express'
+import Footer from '../../Components/Fotter/Footer'
 
 
 const MyTrips = () => {
@@ -69,6 +69,9 @@ const MyTrips = () => {
       ))}
     </ul>
   )}
+</div>
+<div>
+  <Footer/>
 </div>
 </div>
 

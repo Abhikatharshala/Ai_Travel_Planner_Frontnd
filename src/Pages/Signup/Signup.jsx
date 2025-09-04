@@ -9,9 +9,12 @@ const Signup = () => {
     email: "",
     password: ""
   })
+  const [loading,setLoading]=useState(false)
+  const navigate=useNavigate()
 
   const handleSignup = async (e) => {
     e.preventDefault(); // prevent reload
+    setLoading(true)
       try {
       const response = await axios.post(
         "https://ai-travel-planner-2-7abk.onrender.com/api/auth/signup", 
@@ -20,10 +23,13 @@ const Signup = () => {
 
       alert(response.data.message || "Signup successful!");
       console.log("User registered:", response.data);
+      navigate("/login")
 
     } catch (error) {
       console.error("Signup error:", error);
       alert(error.response?.data?.message || "Signup failed");
+    }finally{
+      setLoading(false)
     }
   
   
@@ -71,12 +77,43 @@ const Signup = () => {
         />
 
         {/* Button */}
-        <button 
-          type="submit"
-          className="w-full bg-green-600 text-white py-2 rounded-lg font-semibold hover:bg-green-700 transition duration-200"
-        >
-          Sign Up
-        </button>
+      <button
+  type="submit"
+  disabled={loading}
+  className={`w-full flex items-center justify-center py-2 rounded-lg transition ${
+    loading 
+      ? "bg-gray-400 cursor-not-allowed" 
+      : "bg-green-600 text-white hover:bg-green-700"
+  }`}
+>
+  {loading ? (
+    <>
+      <svg
+        className="animate-spin h-5 w-5 text-white mr-2"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="none"
+        viewBox="0 0 24 24"
+      >
+        <circle
+          className="opacity-25"
+          cx="12"
+          cy="12"
+          r="10"
+          stroke="currentColor"
+          strokeWidth="4"
+        ></circle>
+        <path
+          className="opacity-75"
+          fill="currentColor"
+          d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"
+        ></path>
+      </svg>
+      Signing Up...
+    </>
+  ) : (
+    "Sign Up"
+  )}
+</button>
            <p className="text-center text-sm text-gray-600 mt-4">
           Already have an account?{" "}
           <Link to="/Login" className="text-green-600 hover:underline">

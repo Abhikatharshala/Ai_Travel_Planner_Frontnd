@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../../Components/Navbar/Navbar";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import PopularPlaces from "../Histroy/Histroy"; // Replace with your correct PopularPlaces component
+import PopularPlaces from "../PopularPlaces/PopularPlaces";
+    import { motion } from "framer-motion";
+import { FaMapMarkerAlt, FaRegCalendarAlt, FaRegSmile } from "react-icons/fa";
 
 const TripPlanner = () => {
   const [trip, setTrip] = useState({
@@ -13,15 +15,17 @@ const TripPlanner = () => {
     days: "",
   });
   const [currentImage, setCurrentImage] = useState(0);
+   const [loading,setLoading]=useState(false)
   const navigate = useNavigate();
+ 
 
   // Background images
-  const images = [
-    "https://static.vecteezy.com/system/resources/thumbnails/012/400/885/small_2x/tropical-sunset-beach-and-sky-background-as-exotic-summer-landscape-with-beach-swing-or-hammock-and-white-sand-and-calm-sea-beach-banner-paradise-island-beach-vacation-or-summer-holiday-destination-photo.jpg",
-    "https://static.toiimg.com/thumb/msid-118821086,width-1280,height-720,resizemode-4/118821086.jpg",
-    "https://www.thehosteller.com/_next/image/?url=https%3A%2F%2Fstatic.thehosteller.com%2Fhostel%2Fimages%2FFeatured22.jpg%2FFeatured22-1718537557291.jpg&w=2048&q=75",
-    "https://whc.unesco.org/uploads/thumbs/activity_725-1200-630-20220308132126.jpg",
-  ];
+const images = [
+  "https://images.unsplash.com/photo-1622779536320-bb5f5b501a06?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWFsZGl2ZXMlMjBiZWFjaHxlbnwwfHwwfHx8MA%3D%3D&ixlib=rb-4.1.0&q=60&w=3000",            // Maldives
+  "https://images.unsplash.com/photo-1527668752968-14dc70a27c95?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c3dpc3MlMjBhbHBzJTJDJTIwc3dpdHplcmxhbmR8ZW58MHx8MHx8fDA%3D&ixlib=rb-4.1.0&q=60&w=3000",               // Swiss Alps
+  "https://images.unsplash.com/photo-1501630834273-4b5604d2ee31?fm=jpg&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8Y2xvdWR5JTIwc2t5fGVufDB8fDB8fHww&ixlib=rb-4.1.0&q=60&w=3000",     // Santorini daytime
+  "https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?fm=jpg&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDExfHx8ZW58MHx8fHx8&ixlib=rb-4.1.0&q=60&w=3000"          // Santorini sunset
+];
 
   // Auto-change background every 5 seconds
   useEffect(() => {
@@ -37,6 +41,7 @@ const TripPlanner = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true)
     try {
       const token = localStorage.getItem("token");
       const response = await axios.post(
@@ -45,7 +50,6 @@ const TripPlanner = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       console.log("Trip Plan Response:", response.data);
-      alert("Your Trip is Ready!");
       localStorage.setItem("tripPlan", JSON.stringify(response.data));
       navigate("/TripDetails");
     } catch (error) {
@@ -55,7 +59,7 @@ const TripPlanner = () => {
 
   return (
     <div className="relative w-full min-h-screen">
-      {/* Background */}
+      {/* Background Slider */}
       <div className="absolute inset-0">
         <img
           src={images[currentImage]}
@@ -68,72 +72,121 @@ const TripPlanner = () => {
       {/* Navbar */}
       <Navbar />
 
-      {/* Main content */}
+      {/* Main Content */}
       <div className="relative z-10">
-        {/* Trip Form Centered */}
-        <div className="flex justify-center items-center min-h-screen px-4">
-          <form
-            onSubmit={handleSubmit}
-            className="flex flex-col gap-4 bg-white/80 backdrop-blur-md p-6 rounded-xl shadow-lg max-w-md w-full"
-          >
-            <h1 className="text-2xl font-bold text-center mb-4">Plan Your Trip</h1>
+        {/* Trip Form */}
 
-            <input
-              type="text"
-              placeholder="Enter your location"
-              name="location"
-              value={trip.location}
-              onChange={handleTrip}
-              required
-              className="p-2 rounded border"
-            />
-            <input
-              type="text"
-              placeholder="Enter your preferences"
-              name="preferences"
-              value={trip.preferences}
-              onChange={handleTrip}
-              required
-              className="p-2 rounded border"
-            />
-            <input
-              type="date"
-              name="startDate"
-              value={trip.startDate}
-              onChange={handleTrip}
-              required
-              className="p-2 rounded border"
-            />
-            <input
-              type="date"
-              name="endDate"
-              value={trip.endDate}
-              onChange={handleTrip}
-              required
-              className="p-2 rounded border"
-            />
-            <input
-              type="number"
-              placeholder="How many days of Trip"
-              name="days"
-              value={trip.days}
-              onChange={handleTrip}
-              required
-              className="p-2 rounded border"
-            />
+{loading && (
+  <div className="fixed inset-0 flex justify-center items-center bg-black/60 backdrop-blur-sm z-50">
+    <div className="bg-white p-6 rounded-xl shadow-xl flex flex-col items-center">
+      <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
+      <p className="text-lg font-semibold text-gray-700 animate-pulse">
+        ✨ Finding the best plan for you...
+      </p>
+    </div>
+  </div>
+)}
 
-            <button
-              type="submit"
-              className="bg-blue-600 text-white p-2 rounded hover:bg-blue-700"
-            >
-              Plan My Trip
-            </button>
-          </form>
-        </div>
+
+{/* Trip Form */}
+<div className="flex justify-center items-center min-h-screen px-4">
+  <motion.form
+    onSubmit={handleSubmit}
+    initial={{ opacity: 0, y: 50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+    className="w-full max-w-lg bg-white/80 backdrop-blur-md p-8 rounded-2xl shadow-2xl border border-white/40 space-y-6 hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition"
+  >
+    <div className="text-center">
+      <h1 className="text-3xl font-extrabold text-gray-800">✨ Plan Your Trip</h1>
+      <p className="text-gray-600 mt-2 text-sm">Fill details & get your personalized itinerary</p>
+    </div>
+
+    {/* Location */}
+    <div className="relative group">
+      <FaMapMarkerAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-blue-600 transition" />
+      <input
+        type="text"
+        name="location"
+        placeholder="Enter your location"
+        value={trip.location}
+        onChange={handleTrip}
+        required
+        className="w-full pl-10 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+      />
+    </div>
+
+    {/* Preferences */}
+    <div className="relative group">
+      <FaRegSmile className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-blue-600 transition" />
+      <input
+        type="text"
+        name="preferences"
+        placeholder="Enter your preferences"
+        value={trip.preferences}
+        onChange={handleTrip}
+        required
+        className="w-full pl-10 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+      />
+    </div>
+
+    {/* Dates */}
+    <div className="flex gap-4">
+      <div className="relative group flex-1">
+        <FaRegCalendarAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-blue-600 transition" />
+        <input
+          type="date"
+          name="startDate"
+          value={trip.startDate}
+          onChange={handleTrip}
+          required
+          className="w-full pl-10 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+        />
+      </div>
+      <div className="relative group flex-1">
+        <FaRegCalendarAlt className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 group-hover:text-blue-600 transition" />
+        <input
+          type="date"
+          name="endDate"
+          value={trip.endDate}
+          onChange={handleTrip}
+          required
+          className="w-full pl-10 p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+        />
+      </div>
+    </div>
+
+    {/* Days */}
+    <div>
+      <input
+        type="number"
+        name="days"
+        placeholder="How many days?"
+        value={trip.days}
+        onChange={handleTrip}
+        required
+        className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition"
+      />
+    </div>
+
+    {/* Submit Button */}
+    <motion.button
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.95 }}
+      type="submit"
+      className="w-full py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-2xl transition"
+    >
+      🚀 Plan My Trip
+    </motion.button>
+  </motion.form>
+</div>
+
 
         {/* Popular Places Section */}
-        <div className="px-4 py-12 bg-gray-100">
-          <h2 className="text-3xl font-bold text-center mb-8">Most Popular Places</h2>
+        <div className="px-4 py-16 bg-gray-50">
+          <h2 className="text-3xl font-bold text-center mb-10 text-gray-800">
+            Most Popular Places
+          </h2>
           <PopularPlaces />
         </div>
       </div>

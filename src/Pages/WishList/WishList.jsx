@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MdDeleteOutline } from "react-icons/md";
 import Navbar from "../../Components/Navbar/Navbar";
+import Footer from "../../Components/Fotter/Footer";
 
 const Wishlist = () => {
   const [wishList, setWishList] = useState([]);
@@ -88,6 +89,9 @@ const Wishlist = () => {
           </div>
         ))
       )}
+    </div>
+    <div>
+      <Footer/>
     </div>
     </div>
   );
