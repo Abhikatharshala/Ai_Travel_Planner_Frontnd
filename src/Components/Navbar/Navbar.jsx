@@ -115,7 +115,7 @@ export default function Navbar() {
               Wishlist
             </RouterLink>
             <ScrollLink
-              to="about"
+              to="Footer"
               smooth={true}
               duration={600}
               offset={-70}

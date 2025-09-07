@@ -1,17 +1,15 @@
 import React from 'react'
 import Signup from './Pages/Signup/Signup'
 import Login from './Pages/Login/Login'
-
 import { BrowserRouter, Routes,Route } from 'react-router-dom'
 import Dashboard from './Pages/Dashboard/Dashboard'
-
 import TripDetails from './Pages/TripDetails/TripDetails'
 import MyTrips from './Pages/MyTrips/MyTrips'
 import ViewDetails from './Pages/ViewDetails/ViewDetails'
 import WishList from './Pages/WishList/WishList'
-
 import PopularPlaces from './Pages/PopularPlaces/PopularPlaces'
 import Profile from './Pages/Profile/Profile'
+import Footer from './Components/Fotter/Footer'
 
 
 
@@ -26,6 +24,7 @@ const App = () => {
     <Route path='/Signup' element={<Signup/>}/>
     <Route path='/Login' element={<Login/>}/>
     <Route path='/Dashboard' element={<Dashboard/>}/>
+    <Route path='/Footer' element={<Footer/>}/>
     <Route path='/TripDetails' element={<TripDetails/>}/>
     <Route path='/MyTrips' element={<MyTrips/>}/>
     <Route path='/ViewDetails/:id' element={<ViewDetails/>}/>
