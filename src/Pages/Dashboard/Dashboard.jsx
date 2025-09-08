@@ -7,6 +7,7 @@ import { motion } from "framer-motion";
 import { FaMapMarkerAlt, FaRegCalendarAlt, FaRegSmile } from "react-icons/fa";
 import Offers from "../offers/Offers";
 import Footer from "../../Components/Fotter/Footer";
+import SeasonalPlans from "../SeasonalOffers/SeasonalOffers";
 
 const TripPlanner = () => {
   const [trip, setTrip] = useState({
@@ -190,6 +191,9 @@ const TripPlanner = () => {
           🌍 Special Seasonal Offers
         </h1>
         <Offers />
+      </div>
+      <div>
+        <SeasonalPlans/>
       </div>
 
          {/* Popular Places */}
